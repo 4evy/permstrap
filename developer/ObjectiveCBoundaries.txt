@@ -1,0 +1,19 @@
+# Keep this list of production Objective-C implementations sorted.
+src/application/PSTAboutWindowController.m
+src/application/PSTAppDelegate.m
+src/application/PSTPermissionConfirmationController.m
+src/application/PSTPermissionTargetsDocument.m
+src/application/PSTPermissionTargetsEditorController.m
+src/application/PSTUIComponents.m
+src/application/main.m
+src/authorization/PSTAuthorizationInjector.m
+src/authorization/PSTAuthorizationPromptPolicy.m
+src/automation/PSTAutomaticFileDrag.m
+src/automation/PSTSystemSettingsAutomator.m
+src/automation/PSTSystemSettingsUIProfile.m
+src/permissions/PSTPermissionManifest.m
+src/permissions/PSTPermissionPlan.m
+src/permissions/PSTPermissionWorkflow.m
+src/policy/PSTRuntimePolicy.m
+src/probe/PSTGhosttyPermissionProbe.m
+src/security/PSTTrustedProcess.m

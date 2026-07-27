@@ -1,0 +1,21 @@
+{
+  "files.associations": {
+    "*.m": "objective-c",
+    "*.mm": "objective-cpp",
+    "**/src/application/*.h": "objective-c",
+    "**/src/authorization/*.h": "objective-c",
+    "**/src/automation/*.h": "objective-c",
+    "**/src/permissions/*.h": "objective-c",
+    "**/src/policy/*.h": "objective-c",
+    "**/src/security/PSTCredentialValidator.h": "c",
+    "**/src/security/PSTSecureBuffer.h": "c",
+    "**/src/security/PSTTrustedProcess.h": "objective-c"
+  },
+  "C_Cpp.default.compileCommands": "/Users/evy/Developer/permstrap/build/compile_commands.json",
+  "C_Cpp.default.compilerPath": "/usr/bin/clang",
+  "C_Cpp.default.cStandard": "c23",
+  "C_Cpp.default.intelliSenseMode": "macos-clang-arm64",
+  "mesonbuild.buildFolder": "build",
+  "mesonbuild.configureOnOpen": true,
+  "C_Cpp.default.configurationProvider": "mesonbuild.mesonbuild"
+}

@@ -1,0 +1,9 @@
+[wrap-file]
+directory = CC-1.4.3
+source_url = https://github.com/JacksonAllan/CC/archive/refs/tags/v1.4.3.tar.gz
+source_filename = cc-1.4.3.tar.gz
+source_hash = 88ecc67b2650891707d364a54bf3984927240530a2cdeb296415485dc14b3859
+patch_directory = cc
+
+[provide]
+dependency_names = cc

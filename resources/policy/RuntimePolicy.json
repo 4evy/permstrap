@@ -1,0 +1,108 @@
+{
+  "$schema": "./RuntimePolicy.schema.json",
+  "version": 1,
+  "authorizationPrompt": {
+    "candidateText": {
+      "required": ["password"],
+      "any": ["allow", "make changes", "administrator", "authentication"]
+    },
+    "expectedText": {
+      "required": ["password"],
+      "any": ["system settings", "password to allow this", "password to make changes"]
+    },
+    "credentialRevealButtonTitles": [
+      "Use Password…",
+      "Use Password...",
+      "Enter Password…",
+      "Enter Password..."
+    ],
+    "timing": {
+      "processAgeToleranceMilliseconds": 1000,
+      "secureFieldAppearanceAttempts": 20,
+      "secureFieldAppearancePollMilliseconds": 50,
+      "promptPollMilliseconds": 50
+    }
+  },
+  "systemSettings": {
+    "bundleIdentifier": "com.apple.systempreferences",
+    "privacyPaneURLPrefix": "x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension?",
+    "accessibilityBootstrapRoute": "Privacy_Accessibility",
+    "restartLaterButtonTitle": "Later",
+    "applicationSwitchSuffix": "_Toggle",
+    "automationRowSuffix": ".app",
+    "automationToggleRole": "AXSwitch",
+    "automationDisclosureRole": "AXDisclosureTriangle",
+    "interaction": {
+      "permissionListRoles": ["AXList", "AXTable", "AXOutline"],
+      "permissionListMinimumWidth": 240,
+      "permissionListMinimumHeight": 80,
+      "permissionListFrameTolerance": 1,
+      "permissionListAncestorLimit": 16,
+      "dropOffsetFromLeft": 150,
+      "dropOffsetFromTop": 70,
+      "dropEdgeInset": 40,
+      "applicationActivationAttempts": 20
+    },
+    "timing": {
+      "workspaceOpenTimeoutMilliseconds": 5000,
+      "mainRunLoopPollMilliseconds": 10,
+      "paneWaitMilliseconds": 12000,
+      "elementWaitMilliseconds": 8000,
+      "authorizationWaitMilliseconds": 12000,
+      "applicationActivationPollMilliseconds": 50,
+      "nativeDragTimeoutMilliseconds": 5000,
+      "disclosureSettleMilliseconds": 500,
+      "pollMilliseconds": 100
+    }
+  },
+  "trustedProcesses": [
+    {
+      "bundleIdentifier": "com.apple.SecurityAgent",
+      "executablePath": "/System/Library/Frameworks/Security.framework/Versions/A/MachServices/SecurityAgent.bundle/Contents/MacOS/SecurityAgent",
+      "roles": [
+        "authorization-observer",
+        "authorization-ax-host",
+        "authorization-event-host"
+      ],
+      "requiresFrontmost": true,
+      "activePromptRequiresSecureField": false
+    },
+    {
+      "bundleIdentifier": "com.apple.SecurityAgentHelper.arm64",
+      "executablePath": "/System/Library/Frameworks/Security.framework/Versions/A/MachServices/SecurityAgent.bundle/Contents/XPCServices/SecurityAgentHelper-arm64.xpc/Contents/MacOS/SecurityAgentHelper-arm64",
+      "roles": [
+        "authorization-observer",
+        "authorization-ax-host",
+        "authorization-event-host"
+      ],
+      "requiresFrontmost": true,
+      "activePromptRequiresSecureField": false
+    },
+    {
+      "bundleIdentifier": "com.apple.SecurityAgentHelper.x86_64",
+      "executablePath": "/System/Library/Frameworks/Security.framework/Versions/A/MachServices/SecurityAgent.bundle/Contents/XPCServices/SecurityAgentHelper-x86_64.xpc/Contents/MacOS/SecurityAgentHelper-x86_64",
+      "roles": [
+        "authorization-observer",
+        "authorization-ax-host",
+        "authorization-event-host"
+      ],
+      "requiresFrontmost": true,
+      "activePromptRequiresSecureField": false
+    },
+    {
+      "bundleIdentifier": "com.apple.LocalAuthenticationRemoteService",
+      "executablePath": "/System/Library/PrivateFrameworks/LocalAuthenticationUI.framework/Versions/A/XPCServices/LocalAuthenticationRemoteService.xpc/Contents/MacOS/LocalAuthenticationRemoteService",
+      "roles": ["authorization-observer", "authorization-event-host"],
+      "requiresFrontmost": false,
+      "activePromptRequiresSecureField": false
+    },
+    {
+      "bundleIdentifier": "com.apple.systempreferences",
+      "executablePath": "/System/Applications/System Settings.app/Contents/MacOS/System Settings",
+      "roles": ["authorization-observer", "authorization-ax-host"],
+      "requiresFrontmost": true,
+      "activePromptRequiresSecureField": true,
+      "eventHostBundleIdentifier": "com.apple.LocalAuthenticationRemoteService"
+    }
+  ]
+}

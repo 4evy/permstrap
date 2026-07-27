@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/4evy/permstrap/main/resources/Permissions.schema.json",
+  "title": "Permstrap Permission Catalog",
+  "description": "The permission services and reusable sets supported by a Permstrap build. Runtime targets are deliberately defined in a separate document.",
+  "type": "object",
+  "required": ["$schema", "version", "services", "permissionSets"],
+  "properties": {
+    "$schema": {
+      "const": "./Permissions.schema.json"
+    },
+    "version": {
+      "const": 1
+    },
+    "services": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/service"
+      }
+    },
+    "permissionSets": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {
+        "$ref": "#/$defs/identifier"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/permissionSet"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "uniqueIdentifiers": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/identifier"
+      }
+    },
+    "service": {
+      "type": "object",
+      "required": ["id", "name", "route", "requiresAdmin", "mode"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "name": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "description": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "symbol": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "route": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "requiresAdmin": {
+          "type": "boolean"
+        },
+        "mode": {
+          "enum": ["application-list", "existing-relationships"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "permissionSet": {
+      "type": "object",
+      "required": ["name", "services"],
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "description": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "services": {
+          "$ref": "#/$defs/uniqueIdentifiers"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

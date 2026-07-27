@@ -1,0 +1,179 @@
+{
+  "$schema": "./PermissionTargets.schema.json",
+  "version": 1,
+  "defaults": {
+    "required": false,
+    "permissions": {
+      "sets": ["interactive-control"],
+      "include": ["full-disk-access", "bluetooth"],
+      "exclude": ["automation"]
+    }
+  },
+  "targets": [
+    {
+      "id": "macos:textedit",
+      "name": "TextEdit",
+      "required": true,
+      "bundleIdentifiers": ["com.apple.TextEdit"],
+      "pathCandidates": ["/System/Applications/TextEdit.app"]
+    },
+    {
+      "id": "macos:preview",
+      "name": "Preview",
+      "required": false,
+      "bundleIdentifiers": ["com.apple.Preview"],
+      "pathCandidates": ["/System/Applications/Preview.app"],
+      "permissions": {
+        "inheritDefaults": true,
+        "include": ["media-library"],
+        "exclude": ["bluetooth"]
+      }
+    },
+    {
+      "id": "macos:calculator",
+      "name": "Calculator",
+      "bundleIdentifiers": ["com.apple.calculator"],
+      "pathCandidates": ["/System/Applications/Calculator.app"],
+      "permissions": {
+        "inheritDefaults": false,
+        "include": ["accessibility"]
+      }
+    },
+    {
+      "id": "macos:quicktime-player",
+      "name": "QuickTime Player",
+      "bundleIdentifiers": ["com.apple.QuickTimePlayerX"],
+      "pathCandidates": ["/System/Applications/QuickTime Player.app"],
+      "permissions": {
+        "inheritDefaults": false,
+        "include": ["screen-recording", "media-library"]
+      }
+    },
+    {
+      "id": "macos:music",
+      "name": "Music",
+      "bundleIdentifiers": ["com.apple.Music"],
+      "pathCandidates": ["/System/Applications/Music.app"],
+      "permissions": {
+        "inheritDefaults": false,
+        "sets": ["interactive-control"],
+        "include": ["media-library", "bluetooth"],
+        "exclude": ["input-monitoring", "screen-recording"]
+      }
+    },
+    {
+      "id": "macos:grapher",
+      "name": "Grapher",
+      "bundleIdentifiers": ["com.apple.grapher"],
+      "pathCandidates": ["/System/Applications/Utilities/Grapher.app"],
+      "permissions": {
+        "inheritDefaults": false,
+        "sets": ["developer-tool"],
+        "include": ["screen-recording"],
+        "exclude": ["automation"]
+      }
+    },
+    {
+      "id": "macos:stickies",
+      "name": "Stickies",
+      "bundleIdentifiers": ["com.apple.Stickies"],
+      "pathCandidates": ["/System/Applications/Stickies.app"],
+      "permissions": {
+        "inheritDefaults": false,
+        "sets": ["interactive-control", "developer-tool"],
+        "include": ["media-library", "bluetooth"],
+        "exclude": ["input-monitoring", "full-disk-access"]
+      }
+    },
+    {
+      "id": "macos:screenshot-ui",
+      "name": "Screenshot UI",
+      "kind": "application-bundle",
+      "bundleIdentifiers": [
+        "com.apple.screenshot.launcher",
+        "com.apple.screencaptureui"
+      ],
+      "pathCandidates": [
+        "/System/Applications/Utilities/Screenshot.app",
+        "/System/Library/CoreServices/screencaptureui.app"
+      ],
+      "permissions": {
+        "inheritDefaults": false,
+        "sets": ["interactive-control"],
+        "exclude": ["input-monitoring", "automation"]
+      }
+    },
+    {
+      "id": "macos:digital-color-meter",
+      "name": "Digital Color Meter",
+      "bundleIdentifiers": ["com.apple.DigitalColorMeter"],
+      "pathCandidates": [
+        "/System/Applications/Utilities/Digital Color Meter.app"
+      ],
+      "permissions": {
+        "inheritDefaults": true,
+        "include": ["media-library", "app-management"],
+        "exclude": ["input-monitoring", "bluetooth"]
+      }
+    },
+    {
+      "id": "macos:dictionary",
+      "name": "Dictionary",
+      "bundleIdentifiers": ["com.apple.Dictionary"],
+      "pathCandidates": ["/System/Applications/Dictionary.app"],
+      "permissions": {
+        "inheritDefaults": false,
+        "sets": ["all-automatable"]
+      }
+    },
+    {
+      "id": "macos:osascript",
+      "name": "AppleScript Interpreter",
+      "kind": "executable",
+      "pathCandidates": ["/usr/bin/osascript"],
+      "permissions": {
+        "inheritDefaults": false,
+        "include": ["automation", "developer-tools"]
+      }
+    },
+    {
+      "id": "macos:screencapture",
+      "name": "Screen Capture Tool",
+      "kind": "executable",
+      "pathCandidates": ["/usr/sbin/screencapture"],
+      "permissions": {
+        "inheritDefaults": false,
+        "include": [
+          "screen-recording",
+          "accessibility",
+          "full-disk-access"
+        ]
+      }
+    },
+    {
+      "id": "macos:voice-memos-bundle-only",
+      "name": "Voice Memos",
+      "bundleIdentifiers": ["com.apple.VoiceMemos"],
+      "permissions": {
+        "inheritDefaults": false,
+        "include": ["media-library"]
+      }
+    },
+    {
+      "id": "macos:photo-booth-path-only",
+      "name": "Photo Booth",
+      "pathCandidates": ["/System/Applications/Photo Booth.app"],
+      "permissions": {
+        "inheritDefaults": false,
+        "include": ["bluetooth"]
+      }
+    },
+    {
+      "id": "macos:chess-disabled",
+      "name": "Chess (disabled example)",
+      "enabled": false,
+      "bundleIdentifiers": ["com.apple.Chess"],
+      "pathCandidates": ["/System/Applications/Chess.app"]
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+name: Homebrew
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: homebrew-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  formula:
+    name: Build and test formula
+    runs-on: macos-26
+    timeout-minutes: 30
+
+    env:
+      HOMEBREW_NO_AUTO_UPDATE: "1"
+      HOMEBREW_NO_INSTALL_CLEANUP: "1"
+      HOMEBREW_NO_ANALYTICS: "1"
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Set up Homebrew
+        uses: Homebrew/actions/setup-homebrew@df4b09108a1de9d6f995fe68f302b3f68bd6d2ef # 2026.07.20.1
+
+      - name: Tap repository
+        shell: bash
+        run: brew tap 4evy/permstrap "$GITHUB_WORKSPACE"
+
+      - name: Use the checked-out revision
+        shell: bash
+        run: |
+          tap_repository=$(brew --repository 4evy/permstrap)
+          formula="$tap_repository/Formula/permstrap.rb"
+
+          git -C "$tap_repository" cat-file -e "${GITHUB_SHA}^{commit}"
+          git -C "$tap_repository" update-ref refs/heads/ci-source "$GITHUB_SHA"
+          FORMULA_SOURCE_REVISION=$GITHUB_SHA ruby -pi -e \
+            'sub(/revision: "[0-9a-f]{40}"/, "revision: \"#{ENV.fetch("FORMULA_SOURCE_REVISION")}\"")' \
+            "$formula"
+          grep -F "revision: \"$GITHUB_SHA\"" "$formula"
+
+      - name: Build formula from source
+        run: brew install --build-from-source --verbose 4evy/permstrap/permstrap
+
+      - name: Test formula
+        run: brew test --verbose 4evy/permstrap/permstrap

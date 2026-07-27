@@ -1,0 +1,126 @@
+{
+  "$schema": "./Permissions.schema.json",
+  "version": 1,
+  "services": [
+    {
+      "id": "accessibility",
+      "name": "Accessibility",
+      "description": "Control this Mac using accessibility features.",
+      "symbol": "accessibility",
+      "route": "Privacy_Accessibility",
+      "requiresAdmin": true,
+      "mode": "application-list"
+    },
+    {
+      "id": "input-monitoring",
+      "name": "Input Monitoring",
+      "description": "Monitor keyboard and pointing-device input.",
+      "symbol": "keyboard",
+      "route": "Privacy_ListenEvent",
+      "requiresAdmin": true,
+      "mode": "application-list"
+    },
+    {
+      "id": "full-disk-access",
+      "name": "Full Disk Access",
+      "description": "Access protected files and administrative data.",
+      "symbol": "internaldrive",
+      "route": "Privacy_AllFiles",
+      "requiresAdmin": true,
+      "mode": "application-list"
+    },
+    {
+      "id": "screen-recording",
+      "name": "Screen & System Audio Recording",
+      "description": "Capture screen contents and system audio.",
+      "symbol": "record.circle",
+      "route": "Privacy_ScreenCapture",
+      "requiresAdmin": true,
+      "mode": "application-list"
+    },
+    {
+      "id": "developer-tools",
+      "name": "Developer Tools",
+      "description": "Run software that does not meet the system security policy.",
+      "symbol": "hammer",
+      "route": "Privacy_DevTools",
+      "requiresAdmin": true,
+      "mode": "application-list"
+    },
+    {
+      "id": "bluetooth",
+      "name": "Bluetooth",
+      "description": "Connect to and interact with Bluetooth devices.",
+      "symbol": "antenna.radiowaves.left.and.right",
+      "route": "Privacy_Bluetooth",
+      "requiresAdmin": true,
+      "mode": "application-list"
+    },
+    {
+      "id": "media-library",
+      "name": "Media & Apple Music",
+      "description": "Access Apple Music, music and video activity, and the media library.",
+      "symbol": "music.note",
+      "route": "Privacy_Media",
+      "requiresAdmin": true,
+      "mode": "application-list"
+    },
+    {
+      "id": "app-management",
+      "name": "App Management",
+      "description": "Update or delete other applications.",
+      "symbol": "app.badge",
+      "route": "Privacy_AppBundles",
+      "requiresAdmin": true,
+      "mode": "application-list"
+    },
+    {
+      "id": "automation",
+      "name": "Automation",
+      "description": "Control applications with existing automation relationships.",
+      "symbol": "gearshape.2",
+      "route": "Privacy_Automation",
+      "requiresAdmin": false,
+      "mode": "existing-relationships"
+    }
+  ],
+  "permissionSets": {
+    "all-automatable": {
+      "name": "All supported permissions",
+      "description": "Every permission type currently supported by the System Settings workflow.",
+      "services": [
+        "accessibility",
+        "input-monitoring",
+        "full-disk-access",
+        "screen-recording",
+        "developer-tools",
+        "bluetooth",
+        "media-library",
+        "app-management",
+        "automation"
+      ]
+    },
+    "interactive-control": {
+      "name": "Interactive control",
+      "description": "Permissions commonly required by applications that observe and control the desktop.",
+      "services": [
+        "accessibility",
+        "input-monitoring",
+        "screen-recording",
+        "automation"
+      ]
+    },
+    "developer-tool": {
+      "name": "Developer tool",
+      "description": "Permissions commonly required by local development and automation tools.",
+      "services": [
+        "accessibility",
+        "input-monitoring",
+        "full-disk-access",
+        "developer-tools",
+        "app-management",
+        "automation"
+      ]
+    }
+  }
+}

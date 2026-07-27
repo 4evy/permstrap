@@ -1,0 +1,303 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/4evy/permstrap/main/resources/policy/RuntimePolicy.schema.json",
+  "title": "Permstrap Runtime Policy",
+  "description": "Runtime policy for trusted Apple processes, authorization prompts, and System Settings UI automation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "version",
+    "authorizationPrompt",
+    "systemSettings",
+    "trustedProcesses"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "./RuntimePolicy.schema.json"
+    },
+    "version": {
+      "const": 1
+    },
+    "authorizationPrompt": {
+      "$ref": "#/$defs/authorizationPrompt"
+    },
+    "systemSettings": {
+      "$ref": "#/$defs/systemSettings"
+    },
+    "trustedProcesses": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/trustedProcess"
+      }
+    }
+  },
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "nonEmptyUniqueStrings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/nonEmptyString"
+      }
+    },
+    "positiveInteger": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "positiveUInt32": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 4294967295
+    },
+    "nanosecondConvertibleMilliseconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 18446744073709
+    },
+    "bundleIdentifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]+(?:\\.[A-Za-z0-9_-]+)+$"
+    },
+    "absolutePath": {
+      "type": "string",
+      "pattern": "^/.+"
+    },
+    "textMatcher": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "any"],
+      "properties": {
+        "required": {
+          "$ref": "#/$defs/nonEmptyUniqueStrings"
+        },
+        "any": {
+          "$ref": "#/$defs/nonEmptyUniqueStrings"
+        }
+      }
+    },
+    "authorizationPrompt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidateText",
+        "expectedText",
+        "credentialRevealButtonTitles",
+        "timing"
+      ],
+      "properties": {
+        "candidateText": {
+          "$ref": "#/$defs/textMatcher"
+        },
+        "expectedText": {
+          "$ref": "#/$defs/textMatcher"
+        },
+        "credentialRevealButtonTitles": {
+          "$ref": "#/$defs/nonEmptyUniqueStrings"
+        },
+        "timing": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "processAgeToleranceMilliseconds",
+            "secureFieldAppearanceAttempts",
+            "secureFieldAppearancePollMilliseconds",
+            "promptPollMilliseconds"
+          ],
+          "properties": {
+            "processAgeToleranceMilliseconds": {
+              "$ref": "#/$defs/nanosecondConvertibleMilliseconds"
+            },
+            "secureFieldAppearanceAttempts": {
+              "$ref": "#/$defs/positiveInteger"
+            },
+            "secureFieldAppearancePollMilliseconds": {
+              "$ref": "#/$defs/nanosecondConvertibleMilliseconds"
+            },
+            "promptPollMilliseconds": {
+              "$ref": "#/$defs/nanosecondConvertibleMilliseconds"
+            }
+          }
+        }
+      }
+    },
+    "systemSettings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bundleIdentifier",
+        "privacyPaneURLPrefix",
+        "accessibilityBootstrapRoute",
+        "restartLaterButtonTitle",
+        "applicationSwitchSuffix",
+        "automationRowSuffix",
+        "automationToggleRole",
+        "automationDisclosureRole",
+        "interaction",
+        "timing"
+      ],
+      "properties": {
+        "bundleIdentifier": {
+          "$ref": "#/$defs/bundleIdentifier"
+        },
+        "privacyPaneURLPrefix": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "accessibilityBootstrapRoute": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "restartLaterButtonTitle": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "applicationSwitchSuffix": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "automationRowSuffix": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "automationToggleRole": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "automationDisclosureRole": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "interaction": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "permissionListRoles",
+            "permissionListMinimumWidth",
+            "permissionListMinimumHeight",
+            "permissionListFrameTolerance",
+            "permissionListAncestorLimit",
+            "dropOffsetFromLeft",
+            "dropOffsetFromTop",
+            "dropEdgeInset",
+            "applicationActivationAttempts"
+          ],
+          "properties": {
+            "permissionListRoles": {
+              "$ref": "#/$defs/nonEmptyUniqueStrings"
+            },
+            "permissionListMinimumWidth": {
+              "$ref": "#/$defs/positiveUInt32"
+            },
+            "permissionListMinimumHeight": {
+              "$ref": "#/$defs/positiveUInt32"
+            },
+            "permissionListFrameTolerance": {
+              "$ref": "#/$defs/positiveUInt32"
+            },
+            "permissionListAncestorLimit": {
+              "$ref": "#/$defs/positiveUInt32"
+            },
+            "dropOffsetFromLeft": {
+              "$ref": "#/$defs/positiveUInt32"
+            },
+            "dropOffsetFromTop": {
+              "$ref": "#/$defs/positiveUInt32"
+            },
+            "dropEdgeInset": {
+              "$ref": "#/$defs/positiveUInt32"
+            },
+            "applicationActivationAttempts": {
+              "$ref": "#/$defs/positiveUInt32"
+            }
+          }
+        },
+        "timing": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "workspaceOpenTimeoutMilliseconds",
+            "mainRunLoopPollMilliseconds",
+            "paneWaitMilliseconds",
+            "elementWaitMilliseconds",
+            "authorizationWaitMilliseconds",
+            "applicationActivationPollMilliseconds",
+            "nativeDragTimeoutMilliseconds",
+            "disclosureSettleMilliseconds",
+            "pollMilliseconds"
+          ],
+          "properties": {
+            "workspaceOpenTimeoutMilliseconds": {
+              "$ref": "#/$defs/nanosecondConvertibleMilliseconds"
+            },
+            "mainRunLoopPollMilliseconds": {
+              "$ref": "#/$defs/nanosecondConvertibleMilliseconds"
+            },
+            "paneWaitMilliseconds": {
+              "$ref": "#/$defs/nanosecondConvertibleMilliseconds"
+            },
+            "elementWaitMilliseconds": {
+              "$ref": "#/$defs/nanosecondConvertibleMilliseconds"
+            },
+            "authorizationWaitMilliseconds": {
+              "$ref": "#/$defs/nanosecondConvertibleMilliseconds"
+            },
+            "applicationActivationPollMilliseconds": {
+              "$ref": "#/$defs/nanosecondConvertibleMilliseconds"
+            },
+            "nativeDragTimeoutMilliseconds": {
+              "$ref": "#/$defs/nanosecondConvertibleMilliseconds"
+            },
+            "disclosureSettleMilliseconds": {
+              "$ref": "#/$defs/nanosecondConvertibleMilliseconds"
+            },
+            "pollMilliseconds": {
+              "$ref": "#/$defs/nanosecondConvertibleMilliseconds"
+            }
+          }
+        }
+      }
+    },
+    "trustedProcess": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bundleIdentifier",
+        "executablePath",
+        "roles",
+        "requiresFrontmost",
+        "activePromptRequiresSecureField"
+      ],
+      "properties": {
+        "bundleIdentifier": {
+          "$ref": "#/$defs/bundleIdentifier"
+        },
+        "executablePath": {
+          "$ref": "#/$defs/absolutePath"
+        },
+        "roles": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "authorization-observer",
+              "authorization-ax-host",
+              "authorization-event-host"
+            ]
+          }
+        },
+        "requiresFrontmost": {
+          "type": "boolean"
+        },
+        "activePromptRequiresSecureField": {
+          "type": "boolean"
+        },
+        "eventHostBundleIdentifier": {
+          "$ref": "#/$defs/bundleIdentifier"
+        },
+        "localizedNameContains": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+[wrap-file]
+directory = argtable3-3.3.1
+source_url = https://github.com/argtable/argtable3/releases/download/v3.3.1/argtable-v3.3.1-amalgamation.tar.gz
+source_filename = argtable-v3.3.1-amalgamation.tar.gz
+source_hash = 00eb041bedd84a7e1912e5f8a95d8408350874dca7b46d6ed110bfac44342663
+lead_directory_missing = true
+patch_directory = argtable3
+
+[provide]
+dependency_names = argtable3

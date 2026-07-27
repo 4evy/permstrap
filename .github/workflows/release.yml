@@ -1,0 +1,85 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Verify and release
+    runs-on: macos-26
+    timeout-minutes: 30
+
+    env:
+      HOMEBREW_NO_AUTO_UPDATE: "1"
+      HOMEBREW_NO_INSTALL_CLEANUP: "1"
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Install build tools
+        shell: bash
+        run: |
+          brew install just ninja shellcheck shfmt
+          python3 -m venv "$RUNNER_TEMP/meson"
+          "$RUNNER_TEMP/meson/bin/pip" install meson==1.11.2
+          echo "$RUNNER_TEMP/meson/bin" >> "$GITHUB_PATH"
+
+      - name: Build and verify
+        run: just verify
+
+      - name: Validate release version
+        id: version
+        shell: bash
+        run: |
+          project_version=$(meson introspect --projectinfo build | jq -r .version)
+          expected_tag="v${project_version}"
+
+          if [[ "$GITHUB_REF_NAME" != "$expected_tag" ]]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match project version $expected_tag"
+            exit 1
+          fi
+
+          echo "version=$project_version" >> "$GITHUB_OUTPUT"
+
+      - name: Build production bundle
+        run: just release
+
+      - name: Package production bundle
+        id: package
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        shell: bash
+        run: |
+          archive="permstrap-${VERSION}-macos-arm64.zip"
+          checksum="${archive}.sha256"
+
+          ditto -c -k --sequesterRsrc --keepParent release/Permstrap.app "$archive"
+          shasum -a 256 "$archive" > "$checksum"
+
+          echo "archive=$archive" >> "$GITHUB_OUTPUT"
+          echo "checksum=$checksum" >> "$GITHUB_OUTPUT"
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+          ARCHIVE: ${{ steps.package.outputs.archive }}
+          CHECKSUM: ${{ steps.package.outputs.checksum }}
+        shell: bash
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            "$ARCHIVE" \
+            "$CHECKSUM" \
+            --verify-tag \
+            --generate-notes \
+            --title "Permstrap $VERSION"

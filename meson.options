@@ -1,0 +1,6 @@
+option(
+    'developer_checks',
+    type: 'feature',
+    value: 'auto',
+    description: 'Enable Clang static analysis and clang-format verification',
+)

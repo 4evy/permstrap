@@ -1,0 +1,26 @@
+# macOS
+.DS_Store
+
+# Jujutsu working-copy metadata
+/.jj/
+
+# Meson and Ninja
+/build/
+/build-*/
+/builddir/
+/compile_commands.json
+/release/
+
+# Meson wrap downloads; keep declarations and package overlays
+/subprojects/*
+!/subprojects/*.wrap
+!/subprojects/.wraplock
+!/subprojects/packagefiles/
+!/subprojects/packagefiles/**
+
+# Nix build outputs
+/result
+/result-*
+
+# Tool caches
+/.cache/
