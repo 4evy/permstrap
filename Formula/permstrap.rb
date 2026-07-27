@@ -10,7 +10,8 @@ class Permstrap < Formula
 
   desc "Bootstrap macOS Privacy & Security permissions through System Settings"
   homepage "https://github.com/4evy/permstrap"
-  url "file://#{SOURCE_REPOSITORY}", using: :git
+  url "file://#{SOURCE_REPOSITORY}", using:    :git,
+                                     revision: "e4024c7feba818c031bb61df42d3c78695666738"
   version "1.0.0"
 
   depends_on "meson" => :build
